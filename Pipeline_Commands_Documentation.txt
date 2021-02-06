@@ -1,0 +1,41 @@
+# Lines beginning with "#" are comment lines (don't execute these)
+# This code has been run with Python 2.7.15; we cannot guarantee compatibility with other versions of Python
+# We suggest execution in a conda environment with Python 2.7.15, matplotlib, and pandas (these are required; conda will install the other needed dependencies)
+# The input file for the pipeline is: "B49_B75_B96.Chr.Variants.vcf"
+# This input file is available as a dataset at the following figshare repository: https://doi.org/10.6084/m9.figshare.13708375.v1
+# To run the analysis and plotting (visual display), create a parent directory
+# Place file "B49_B75_B96.Chr.Variants.vcf" in the parent directory
+# Within the parent directory, create a subdirectory called "pipeline_for_inbred"
+# Place all 11 python files (files ending in ".py") available on this Github repository in the subdirectory "pipeline_for_inbred"
+# From the parent directory, execute the following commands in the following order
+
+
+# These commands make the output folders
+
+mkdir pipeline_5Mb_500kb_Blue
+mkdir pipeline_5Mb_500kb_Blue/B49-B75-B96_Features_500000_99+
+mkdir pipeline_5Mb_500kb_Blue/B49-B75
+mkdir pipeline_5Mb_500kb_Blue/B49-B96
+mkdir pipeline_5Mb_500kb_Blue/B75-B96
+mkdir pipeline_5Mb_500kb_Blue/Legend
+
+
+# This is the master script that processes the VCF file
+
+python pipeline_for_inbred/strain_comparison_pipeline_inbred.py -v B49_B75_B96.Chr.Variants.vcf -o pipeline_5Mb_500kb_Blue -m -e -y -w 5000000 -s 500000 -n 0
+
+
+# Commands to process the output file for action by plotting programs below
+
+cut -d ',' -f 1-4 pipeline_5Mb_500kb_Blue/pairwise.csv > pipeline_5Mb_500kb_Blue/pairwise_B49-B75.csv
+cut -d ',' -f 1-3,5 pipeline_5Mb_500kb_Blue/pairwise.csv > pipeline_5Mb_500kb_Blue/pairwise_B49-B96.csv
+cut -d ',' -f 1-3,6 pipeline_5Mb_500kb_Blue/pairwise.csv > pipeline_5Mb_500kb_Blue/pairwise_B75-B96.csv
+
+
+# Note: the end arguments in the next command are to plot lines corresponding to candidate resistance genes of interest in B49/B75/B96
+
+python pipeline_for_inbred/plot_identical_with_features_99+.py pipeline_5Mb_500kb_Blue/pairwise.csv 5000000 500000 500000 pipeline_5Mb_500kb_Blue/chrom_file.txt Blues pipeline_5Mb_500kb_Blue/B49-B75-B96_Features_500000_99+ 1:67211437,1:182294030,2:148710896,2:238144372,4:2843258,4:19410164
+python pipeline_for_inbred/plot_heat_pairwise_75-100.py pipeline_5Mb_500kb_Blue/pairwise_B49-B75.csv 5000000 500000 pipeline_5Mb_500kb_Blue/chrom_file.txt Blues pipeline_5Mb_500kb_Blue/B49-B75
+python pipeline_for_inbred/plot_heat_pairwise_75-100.py pipeline_5Mb_500kb_Blue/pairwise_B49-B96.csv 5000000 500000 pipeline_5Mb_500kb_Blue/chrom_file.txt Blues pipeline_5Mb_500kb_Blue/B49-B96
+python pipeline_for_inbred/plot_heat_pairwise_75-100.py pipeline_5Mb_500kb_Blue/pairwise_B75-B96.csv 5000000 500000 pipeline_5Mb_500kb_Blue/chrom_file.txt Blues pipeline_5Mb_500kb_Blue/B75-B96
+python pipeline_for_inbred/panel.py 75 100 Blues 5 pipeline_5Mb_500kb_Blue/Legend/
