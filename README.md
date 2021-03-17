@@ -12,4 +12,6 @@ Documentation on this GitHub repository will be updated with journal information
 
 Briefly, this repository has the code, written in Python 2.7, needed for the genome-wide haplotype analyses, and their visual display, as presented in Figure 6 and referenced in the manuscript's Results section.
 
-Instructions for downloading the requisite dataset of variant calls for B49, B75, and B96, as assessed from alignments of high-throughput sequencing reads from each line to the maize B73 reference genome, as well as documentation/instructions for running the Python code, can be found in file “Pipeline_Commands_Documentation.txt”.
+Instructions for downloading the requisite dataset of variant calls for B49, B75, and B96, as assessed from alignments of high-throughput sequencing reads from each line to the maize B73 reference genome, as well as documentation/instructions for running the Python code, can be found in file “Pipeline_Commands_Documentation.txt”. For data downlaod, go to this figshare repository: https://doi.org/10.6084/m9.figshare.13708375.v1.
+
+Additionally, python code (written for Python 3) to generate the input file used to plot Supplemental Figure S5 in a revision of the manuscript is provided (code file "Allele_freq_analysis_chr6_shared_haplotype.py"). The two input files for this program can be downloaded from the respective figshare data repository (see above; execute this program in a directory containing the two input files).
